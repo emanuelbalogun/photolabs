@@ -57,9 +57,9 @@ const sampleDataForPhotoList = [
   },
 ];
 
-const PhotoList = () => {
-  const [photoCard, setPhontoCard] = useState(sampleDataForPhotoList);
-  const photoItemList = photoCard.map(photo => {
+const PhotoList = (props) => {
+ // const [photoCard, setPhontoCard] = useState(sampleDataForPhotoList);
+  const photoItemList = props.photos.map(photo => {
     return <PhotoListItem key= {photo.id} photoCard={photo} />;
   });
 

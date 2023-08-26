@@ -1,25 +1,19 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 import PhotoListItem from "./components/PhotoListItem";
 import "./App.scss";
-import TopNavigation from "components/TopNavigationBar";
-import PhotoList from "components/PhotoList";
+import HomeRoute from "routes/HomeRoute";
+import photos from "mocks/photos";
+import topics from "mocks/topics";
 
 
 // Note: Rendering a single component to build components in isolation
-const App = () => {
+const App = () => {  
   
   return (
     <div className="App">
-      <TopNavigation/>
-      <PhotoList/>
-      {/* <PhotoListItem
-        imagesource = {sampleDataForPhotoListItem.imageSource}
-        profile = {sampleDataForPhotoListItem.profile}
-        username = {sampleDataForPhotoListItem.username}
-        location = {sampleDataForPhotoListItem.location}
-      /> */}
-    </div>
+      <HomeRoute photos = {photos} topics = {topics}/>
+   </div>
   );
 };
 
