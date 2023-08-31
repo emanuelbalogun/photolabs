@@ -4,10 +4,9 @@ import PhotoFavButton from "./PhotoFavButton";
 
 const PhotoListItem = (props) => {
   /* Insert React */
-  console.log(props.photoCard);
   return (
     <div className="photo-list__item ">
-      <PhotoFavButton />
+      <PhotoFavButton id= {props.id} handleFavorite = {props.handleFavorite} favoriteList={props.favoriteList}/>
       <img src={props.photoCard.urls.full} className="photo-list__image" />
       <div className="photo-list__user-details">
         <img src={props.photoCard.user.profile} className="photo-list__user-profile" />
