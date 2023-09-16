@@ -20,24 +20,39 @@ const App = () => {
   };
 
   const handleChosenPhoto = (photoId) => {
-    if (setsimilarPhotos.length > 0) {
+    let similarphoto = [];
+    if (setsimilarPhotos.length > 0 || photoId === 0) {
       setsimilarPhotos([]);
+      if (photoId === 0) return;
     }
-    const result = photos.filter((id) => id === photoId);
-    setsimilarPhotos(result);
+    const result = photos.map((photo) => {
+      if (photo.id === photoId) {
+        similarphoto.push({photo,...photo.similar_photos});
+      }
+    });
+
+    setsimilarPhotos(similarphoto);
     return;
   };
-  //console.log(handleChosenPhoto(1));
-
-  return (
+    
+  return (  
     <div className="App">
       <HomeRoute
         photos={photos}
         topics={topics}
         handleFavorite={handleFavorite}
+        handleChosenPhoto={handleChosenPhoto}
         favoriteList={favoriteList}
       />
-      <PhotoDetailsModal photos={photos} similarPhotos={similarPhotos} handleChosenPhoto ={handleChosenPhoto} favoriteList={favoriteList} />
+      {similarPhotos.length > 0 && (
+        <PhotoDetailsModal
+          photos={photos}
+          similarPhotos={similarPhotos}
+          handleChosenPhoto={handleChosenPhoto}
+          handleFavorite={handleFavorite}
+          favoriteList={favoriteList}
+        />
+      )}
     </div>
   );
 };

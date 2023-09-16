@@ -59,14 +59,17 @@ import PhotoListItem from "./PhotoListItem";
 
 const PhotoList = (props) => {
   // const [photoCard, setPhontoCard] = useState(sampleDataForPhotoList);
+  
   const photoItemList = props.photos.map((photo) => {
+    // console.log(photo);
     return (
-      <PhotoListItem
+      <PhotoListItem 
         key={photo.id}
         id={photo.id}
         photoCard={photo}
         handleFavorite={props.handleFavorite}
         favoriteList={props.favoriteList}
+        handleChosenPhoto={props.handleChosenPhoto}
       />
     );
   });
