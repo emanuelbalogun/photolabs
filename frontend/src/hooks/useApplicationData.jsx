@@ -1,34 +1,58 @@
-import  {  useState } from "react";
+import  {  useReducer } from "react";
 import photos from "mocks/photos";
 
+export const ACTIONS = {
+  FAV_PHOTO_ADDED: 'FAV_PHOTO_ADDED',
+  FAV_PHOTO_REMOVED: 'FAV_PHOTO_REMOVED',
+  SET_PHOTO_DATA: 'SET_PHOTO_DATA',
+  SET_TOPIC_DATA: 'SET_TOPIC_DATA',
+  SELECT_PHOTO: 'SELECT_PHOTO',
+  DISPLAY_PHOTO_DETAILS: 'DISPLAY_PHOTO_DETAILS'
+}
+
 export default function useApplicationData(initial) {
-  const [favoriteList, setFavoriteList] = useState(initial);
-  const [similarPhotos, setsimilarPhotos] = useState(initial);
-  const handleFavorite = (photoId) => {
-    if (favoriteList.includes(photoId)) {
-      const favoriteListCopy = favoriteList.filter((id) => id != photoId);
-      setFavoriteList(favoriteListCopy);
-      return;
-    }
+  function reducer(state, action) {
+    switch(action.type){
+      case ACTIONS.FAV_PHOTO_ADDED:
+          if (state.favoriteList.includes(action.id)) {
+          const favoriteListCopy = state.favoriteList.filter((id) => id != action.id);
+          return {...state,favoriteList: favoriteListCopy};
+        } 
+        
+    return {...state,favoriteList:[...state.favoriteList,action.id ]};
 
-    setFavoriteList([...favoriteList, photoId]);
-  };
-
-  const handleChosenPhoto = (photoId) => {
+    case ACTIONS.SELECT_PHOTO:
     let similarphoto = [];
-    if (setsimilarPhotos.length > 0 || photoId === 0) {
-      setsimilarPhotos([]);
-      if (photoId === 0) return;
+    if (state.similarPhotos.length > 0 || action.id === 0) {
+      state.similarPhotos = similarphoto;
+      if (action.id === 0) return {...state,similarPhotos:similarphoto};
     }
     const result = photos.map((photo) => {
-      if (photo.id === photoId) {
+      if (photo.id === action.id) {
         similarphoto.push({photo,...photo.similar_photos});
       }
     });
 
-    setsimilarPhotos(similarphoto);
-    return;
+   return {...state,similarPhotos: similarphoto};
+    }
+    return {...state};
+  }
+  const initialState = {
+    favoriteList: initial,
+    similarPhotos: initial
   };
+  const [state, dispatch] = useReducer(reducer,initialState);
+ 
+  const handleFavorite = (photoId) => {
+    dispatch({type : ACTIONS.FAV_PHOTO_ADDED, id : photoId})   
+  };
+
+  const handleChosenPhoto = (photoId) => {
+    dispatch({type : ACTIONS.SELECT_PHOTO, id : photoId})   
+  };
+
+  const favoriteList = state.favoriteList;
+  const similarPhotos =state.similarPhotos;
 
   return {
     favoriteList,
