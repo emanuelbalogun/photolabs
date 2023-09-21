@@ -5,7 +5,7 @@ import "../styles/TopicListItem.scss";
 const TopicListItem = (props) => {
   return (
     <div className="topic-list__item">
-      <span>{props.category.slug}</span>
+      <a href={props.category.slug}>{props.category.title}</a>
       {/* <span>{props.category.title}</span> */}
     </div>
   );
