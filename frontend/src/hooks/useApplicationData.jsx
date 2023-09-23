@@ -16,7 +16,8 @@ export default function useApplicationData(initial) {
       .then((res) => res.json())
       .then((data) =>
         dispatch({ type: ACTIONS.SET_PHOTO_DATA, payload: data })
-      );
+      )
+      .catch(err=> alert("An error Occured. Photos could not be fetched : " + err))
   }, []);
 
   useEffect(() => {
@@ -24,7 +25,8 @@ export default function useApplicationData(initial) {
       .then((res) => res.json())
       .then((data) =>
         dispatch({ type: ACTIONS.SET_TOPIC_DATA, payload: data })
-      );
+      )
+      .catch(err=> alert("An error Occured. Topic Data could not be fetched : " + err))
   }, []);
 
   const reducer = (state, action) => {
@@ -83,7 +85,8 @@ export default function useApplicationData(initial) {
       .then((res) => res.json())
       .then((data) =>
         dispatch({ type: ACTIONS.GET_PHOTOS_BY_TOPICS, payload: data })
-      );
+      )
+      .catch(err=> alert("An error Occured. Photos could not be fetched : " + err))
   };
   const favoriteList = state.favoriteList;
   const similarPhotos = state.similarPhotos;
