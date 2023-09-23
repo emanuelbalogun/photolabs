@@ -4,7 +4,7 @@ import "../styles/PhotoDetailsModal.scss";
 import closeSymbol from "../assets/closeSymbol.svg";
 import PhotoList from "components/PhotoList";
 import PhotoFavButton from "components/PhotoFavButton";
-//import photos from 'mocks/photos';
+
 const PhotoDetailsModal = (props) => {
   
   let similarphotos = [];

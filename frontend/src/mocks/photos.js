@@ -178,10 +178,6 @@ const photo10 = {
     "profile": `${process.env.PUBLIC_URL}/profile-1.jpg`
   }
 }
-
-
-
-
 const photos = [
   {
     ...photo1,
