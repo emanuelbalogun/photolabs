@@ -24,8 +24,8 @@ const TopicList = (props) => {
 
   //const [topic,setTopic] = useState(sampleDataForTopicList);
   
-  const topicList = props.photos.map(category => {
-    return <TopicListItem key= {category.id} category={category} />;
+  const topicList = props.topics.map(topic => {
+    return <TopicListItem key= {topic.id}  topic={topic}  onTopicSelect={props.onTopicSelect}/>
   });
 
   return (

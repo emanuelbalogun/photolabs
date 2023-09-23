@@ -1,64 +1,97 @@
-import  {  useReducer } from "react";
-import photos from "mocks/photos";
+import { useReducer, useEffect } from "react";
+
 
 export const ACTIONS = {
-  FAV_PHOTO_ADDED: 'FAV_PHOTO_ADDED',
-  FAV_PHOTO_REMOVED: 'FAV_PHOTO_REMOVED',
-  SET_PHOTO_DATA: 'SET_PHOTO_DATA',
-  SET_TOPIC_DATA: 'SET_TOPIC_DATA',
-  SELECT_PHOTO: 'SELECT_PHOTO',
-  DISPLAY_PHOTO_DETAILS: 'DISPLAY_PHOTO_DETAILS'
-}
+  GET_PHOTOS_BY_TOPICS: "GET_PHOTOS_BY_TOPICS",
+  FAV_PHOTO_ADDED: "FAV_PHOTO_ADDED",
+  FAV_PHOTO_REMOVED: "FAV_PHOTO_REMOVED",
+  SET_PHOTO_DATA: "SET_PHOTO_DATA",
+  SET_TOPIC_DATA: "SET_TOPIC_DATA",
+  SELECT_PHOTO: "SELECT_PHOTO",
+  DISPLAY_PHOTO_DETAILS: "DISPLAY_PHOTO_DETAILS",
+};
 
 export default function useApplicationData(initial) {
-  function reducer(state, action) {
-    switch(action.type){
+  useEffect(()=> {
+    fetch('http://localhost:8001/api/photos').then((res) => res.json())
+    .then((data)=> dispatch({ type: ACTIONS.SET_PHOTO_DATA, payload: data }))
+  },[]);
+
+  useEffect(()=> {
+    fetch('http://localhost:8001/api/topics').then((res) => res.json())
+    .then((data)=>  dispatch({ type: ACTIONS.SET_TOPIC_DATA, payload: data }))
+  },[]);
+  
+  const reducer = (state, action) => { 
+
+    switch (action.type) {
+      case ACTIONS.GET_PHOTOS_BY_TOPICS:
+        return {...state,photoData: action.payload};
+      case ACTIONS.SET_TOPIC_DATA:
+      return {...state,topicData: action.payload};
+      case ACTIONS.SET_PHOTO_DATA:
+      return { ...state, photoData: action.payload };
       case ACTIONS.FAV_PHOTO_ADDED:
-          if (state.favoriteList.includes(action.id)) {
-          const favoriteListCopy = state.favoriteList.filter((id) => id != action.id);
-          return {...state,favoriteList: favoriteListCopy};
-        } 
-        
-    return {...state,favoriteList:[...state.favoriteList,action.id ]};
+        if (state.favoriteList.includes(action.id)) {
+          const favoriteListCopy = state.favoriteList.filter(
+            (id) => id != action.id
+          );
+          return { ...state, favoriteList: favoriteListCopy };
+        }
 
-    case ACTIONS.SELECT_PHOTO:
-    let similarphoto = [];
-    if (state.similarPhotos.length > 0 || action.id === 0) {
-      state.similarPhotos = similarphoto;
-      if (action.id === 0) return {...state,similarPhotos:similarphoto};
-    }
-    const result = photos.map((photo) => {
-      if (photo.id === action.id) {
-        similarphoto.push({photo,...photo.similar_photos});
-      }
-    });
+        return { ...state, favoriteList: [...state.favoriteList, action.id] };
 
-   return {...state,similarPhotos: similarphoto};
+      case ACTIONS.SELECT_PHOTO:
+        let similarphoto = [];
+        if (state.similarPhotos.length > 0 || action.id === 0) {
+          state.similarPhotos = similarphoto;
+          if (action.id === 0) return { ...state, similarPhotos: similarphoto };
+        }
+        const result = state.photoData.map((photo) => {
+          
+          if (photo.id === action.id) {
+            similarphoto.push({ photo, ...photo.similar_photos });
+          }
+        });
+
+        return { ...state, similarPhotos: similarphoto };
     }
-    return {...state};
-  }
+    return { ...state };
+  };
+
   const initialState = {
     favoriteList: initial,
-    similarPhotos: initial
+    similarPhotos: initial,
+    photoData: [],
+    topicData: []
   };
-  const [state, dispatch] = useReducer(reducer,initialState);
- 
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   const handleFavorite = (photoId) => {
-    dispatch({type : ACTIONS.FAV_PHOTO_ADDED, id : photoId})   
+    dispatch({ type: ACTIONS.FAV_PHOTO_ADDED, id: photoId });
   };
 
   const handleChosenPhoto = (photoId) => {
-    dispatch({type : ACTIONS.SELECT_PHOTO, id : photoId})   
+    dispatch({ type: ACTIONS.SELECT_PHOTO, id: photoId });
   };
 
+  const onTopicSelect = (id) => {
+     fetch(`http://localhost:8001/api/topics/photos/${id}`)
+    .then(res=> res.json())
+    .then((data)=>  dispatch({ type: ACTIONS.GET_PHOTOS_BY_TOPICS, payload: data }))    
+  }
   const favoriteList = state.favoriteList;
-  const similarPhotos =state.similarPhotos;
+  const similarPhotos = state.similarPhotos;
+  const photos = state.photoData;
+  const topics = state.topicData;
 
   return {
     favoriteList,
     similarPhotos,
     handleFavorite,
-    handleChosenPhoto
-  }
+    handleChosenPhoto,
+    photos,
+    topics,
+    onTopicSelect
+  };
 }
-

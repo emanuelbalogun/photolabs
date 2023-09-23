@@ -6,6 +6,9 @@ import PhotoList from "components/PhotoList";
 import PhotoFavButton from "components/PhotoFavButton";
 //import photos from 'mocks/photos';
 const PhotoDetailsModal = (props) => {
+
+  console.log(props);
+
   let similarphotos = [];
 
   Object.values(props.similarPhotos).map((value) => {
@@ -35,7 +38,7 @@ const PhotoDetailsModal = (props) => {
         <img
           src={props.similarPhotos[0].photo.urls.full}
           className="photo-details-modal__image"
-          onClick={() => props.handleChosenPhoto(props.photoCard.id)}
+          onClick={() => props.handleChosenPhoto(props.photos.id)}
         />
         <div className="photo-list__user-details">
           <img

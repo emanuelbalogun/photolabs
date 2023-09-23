@@ -1,8 +1,6 @@
 import React from "react";
 import "./App.scss";
 import HomeRoute from "routes/HomeRoute";
-import photos from "mocks/photos";
-import topics from "mocks/topics";
 import PhotoDetailsModal from "routes/PhotoDetailsModal";
 import  useApplicationData from "./hooks/useApplicationData.jsx";
 
@@ -13,8 +11,13 @@ const App = () => {
   const {favoriteList,
     similarPhotos,
     handleFavorite,
-    handleChosenPhoto} = useApplicationData([]);
-    
+    handleChosenPhoto,
+    photos,
+    topics,
+    onTopicSelect
+  } = useApplicationData([]);
+  
+  
   return (
     <div className="App">
       <HomeRoute
@@ -23,6 +26,7 @@ const App = () => {
         handleFavorite={handleFavorite}
         handleChosenPhoto={handleChosenPhoto}
         favoriteList={favoriteList}
+        onTopicSelect={onTopicSelect}
       />
       {similarPhotos.length > 0 && (
         <PhotoDetailsModal
