@@ -1,7 +1,7 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 
 import "../styles/TopicList.scss";
-import TopicListItem from "./TopicListItem"
+import TopicListItem from "./TopicListItem";
 const sampleDataForTopicList = [
   {
     id: "1",
@@ -21,18 +21,19 @@ const sampleDataForTopicList = [
 ];
 
 const TopicList = (props) => {
-
   //const [topic,setTopic] = useState(sampleDataForTopicList);
-  
-  const topicList = props.topics.map(topic => {
-    return <TopicListItem key= {topic.id}  topic={topic}  onTopicSelect={props.onTopicSelect}/>
+
+  const topicList = props.topics.map((topic) => {
+    return (
+      <TopicListItem
+        key={topic.id}
+        topic={topic}
+        onTopicSelect={props.onTopicSelect}
+      />
+    );
   });
 
-  return (
-    <div className="top-nav-bar__topic-list">
-      {topicList}
-    </div>
-  );
+  return <div className="top-nav-bar__topic-list">{topicList}</div>;
 };
 
 export default TopicList;

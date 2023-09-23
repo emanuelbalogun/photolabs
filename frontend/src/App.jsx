@@ -11,7 +11,7 @@ const App = () => {
   const {favoriteList,
     similarPhotos,
     handleFavorite,
-    handleChosenPhoto,
+    handleSelectedPhoto,
     photos,
     topics,
     onTopicSelect
@@ -24,7 +24,7 @@ const App = () => {
         photos={photos}
         topics={topics}
         handleFavorite={handleFavorite}
-        handleChosenPhoto={handleChosenPhoto}
+        handleSelectedPhoto={handleSelectedPhoto}
         favoriteList={favoriteList}
         onTopicSelect={onTopicSelect}
       />
@@ -32,7 +32,7 @@ const App = () => {
         <PhotoDetailsModal
           photos={photos}
           similarPhotos={similarPhotos}
-          handleChosenPhoto={handleChosenPhoto}
+          handleSelectedPhoto={handleSelectedPhoto}
           handleFavorite={handleFavorite}
           favoriteList={favoriteList}
         />

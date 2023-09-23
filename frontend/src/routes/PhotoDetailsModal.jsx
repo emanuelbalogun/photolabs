@@ -6,9 +6,7 @@ import PhotoList from "components/PhotoList";
 import PhotoFavButton from "components/PhotoFavButton";
 //import photos from 'mocks/photos';
 const PhotoDetailsModal = (props) => {
-
-  console.log(props);
-
+  
   let similarphotos = [];
 
   Object.values(props.similarPhotos).map((value) => {
@@ -24,7 +22,7 @@ const PhotoDetailsModal = (props) => {
     <div className="photo-details-modal">
       <button
         className="photo-details-modal__close-button"
-        onClick={() => props.handleChosenPhoto(0)}
+        onClick={() => props.handleSelectedPhoto(0)}
       >
         <img src={closeSymbol} alt="close symbol" />
       </button>
@@ -38,7 +36,7 @@ const PhotoDetailsModal = (props) => {
         <img
           src={props.similarPhotos[0].photo.urls.full}
           className="photo-details-modal__image"
-          onClick={() => props.handleChosenPhoto(props.photos.id)}
+          onClick={() => props.handleSelectedPhoto(props.photos.id)}
         />
         <div className="photo-list__user-details">
           <img
@@ -59,7 +57,7 @@ const PhotoDetailsModal = (props) => {
 
       <PhotoList
         photos={similarphotos}
-        handleChosenPhoto={props.handleChosenPhoto}
+        handleSelectedPhoto={props.handleSelectedPhoto}
         handleFavorite={props.handleFavorite}
         favoriteList={props.favoriteList}
       />

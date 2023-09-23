@@ -69,7 +69,7 @@ const PhotoList = (props) => {
         photoCard={photo}
         handleFavorite={props.handleFavorite}
         favoriteList={props.favoriteList}
-        handleChosenPhoto={props.handleChosenPhoto}
+        handleSelectedPhoto={props.handleSelectedPhoto}
       />
     );
   });
